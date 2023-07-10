@@ -207,7 +207,8 @@
                         <li class="am-hide" id="qx1007"><a href="JavaScript:void(0)" onclick="checkTab(this,'/packing/bzwbccx')"><span class="am-icon-puzzle-piece"></span><span id="qx010007value"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
                     </ul>
                 </li>
-                <li class="admin-parent am-hide" id="qx11">
+                <%--信息管理，暂时不用--%>
+                <%--<li class="admin-parent am-hide" id="qx11">
                     <a class="am-cf"  data-am-collapse="{target: '#collapse-message'}">
                         <span><img src="/images/title_xs.png" style="width:20px;height: 19px;"></span>
                         <span id="qx011value"></span>
@@ -228,7 +229,7 @@
                             </a>
                         </li>
                     </ul>
-                </li>
+                </li>--%>
                 <li class="admin-parent" id="qx12">
                     <a class="am-cf" data-am-collapse="{target: '#collapse-baobiao'}"><span><img src="/images/title_bzw.png" style="width:20px;height: 19px;"></span><span id="qx012value"></span><span class="am-icon-angle-right am-fr am-margin-right"></span></a>
                     <ul class="am-list am-collapse admin-sidebar-sub" id="collapse-baobiao">
