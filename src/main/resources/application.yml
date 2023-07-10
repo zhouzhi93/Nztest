@@ -1,0 +1,28 @@
+spring:
+  datasource:
+    #url: 'jdbc:sqlserver://10.10.10.218:1433;DataBaseName=INFOLYW;SelectMethod=cursor'
+    url: 'jdbc:sqlserver://127.0.0.1:1433;DataBaseName=INFOLYW;SelectMethod=cursor'
+    username: 'sa'
+    #password: '@admin123456'
+    password: '123456'
+    driver-class-name: 'com.microsoft.sqlserver.jdbc.SQLServerDriver'
+  mvc:
+    view:
+      prefix: /WEB-INF/view/
+      suffix: .jsp
+server:
+  port: 8089
+  servlet:
+    session:
+      timeout: 3600s
+      cookie:
+        name: nztestSessionKey
+    context-path: /nztest
+
+knife4j:
+#  basic:
+#    enable: true
+#    username: infol
+#    password: flor@8177yfkj#8077
+
+

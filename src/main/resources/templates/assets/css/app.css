@@ -1,0 +1,62 @@
+.bluediv{
+    /*min-height: 174px;*/
+    border: 1px solid #32c5d2;
+    border-top: 2px solid #32c5d2;
+    background: #32c5d2;
+    color: #ffffff;
+    padding: 12px 17px;
+    padding-left: 22px;
+    border-radius: 5px;
+}
+.whitediv{
+    border: 1px solid #BABABA;
+    border-top: 2px solid #BABABA;
+    background: #BABABA;
+    color: #838FA1;
+    padding: 12px 17px;
+    padding-left: 22px;
+    border-radius: 5px;
+}
+.purplediv{
+    border: 1px solid #8E44AD;
+    border-top: 2px solid #8E44AD;
+    background: #8E44AD;
+    color: #ffffff;
+    padding: 12px 17px;
+    padding-left: 22px;
+    border-radius: 5px;
+}
+.otherdiv{
+    border: 1px solid #91C7AE;
+    border-top: 2px solid #91C7AE;
+    background: #91C7AE;
+    color: #ffffff;
+    padding: 12px 17px;
+    padding-left: 22px;
+    border-radius: 5px;
+}
+.am-infol-header{
+    padding-top: 18px;
+    color: #fff;
+}
+.am-infol-value{
+    position: relative;
+    z-index: 35;
+    font-weight: 300;
+    display: block;
+    color: #fff;
+    font-size: 46px;
+    line-height: 46px;
+    margin-bottom: 8px;
+}
+.am-infol-icon{
+    position: absolute;
+    z-index: 30;
+    right: 30px;
+    top: 24px;
+    font-size: 70px;
+    color: #46cad6;
+}
+.am-infol-row{
+    margin-top: 10px;
+}
