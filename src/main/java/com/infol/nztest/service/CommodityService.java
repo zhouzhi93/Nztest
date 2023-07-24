@@ -17,14 +17,14 @@ public interface CommodityService {
                     String jhj, String jxsl, String xxsl, String scxkz, String ghs, String scqy, String splx, String nybz,
                     String nycpdjz, String nycpbz, String nycpbq, String nycpsms, String nycpzmwjbh,
                     String zhl,String jx,String mbzzl,String mbzzldw,String ppmc,String yxcf,String dx,
-                    String yxq,String syfw,HttpServletRequest request);
+                    String yxq,String syfw,String fzdx,String sfcz,HttpServletRequest request);
     String saveBjkc(String sptm,String bjkc,HttpServletRequest request);
 
     String updateSpda(String sptm, String djh, String spmc, String spfl, String ggxh, String jldw, String xsj,
                       String jhj, String jxsl, String xxsl, String scxkz, String ghs, String scqy, String splx, String nybz,
                       String nycpdjz, String nycpbz, String nycpbq, String nycpsms, String nycpzmwjbh,
                       String zhl,String jx,String mbzzl,String mbzzldw,String ppmc,String yxcf,String dx,String yxq,
-                      String syfw,HttpServletRequest request);
+                      String syfw,String sfcz,String fzdx,HttpServletRequest request);
 
     String updateSpTp(String sptm, String sptp,HttpServletRequest request);
 

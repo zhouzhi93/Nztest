@@ -229,6 +229,15 @@ public class SalesController {
         return "sale/saledetail";
     }
 
+
+    @RequestMapping("/xjnyxstj")
+    public String xjnyxstj(Model model,HttpServletRequest request) {
+        Date date = new Date();
+        SimpleDateFormat dateFormat= new SimpleDateFormat("yyyyMMdd");
+        String str=dateFormat.format(date);
+        return "sale/xjnyxstj";
+    }
+
     @RequestMapping("/saleZbxx")
     @ResponseBody
     public String saleZbxx(String f_khxx,String f_bmbm,String f_spxx,HttpServletRequest request) {
@@ -482,4 +491,53 @@ public class SalesController {
         return salesService.getJdrqqj(khbm,rq,request);
     }
 
+    @RequestMapping("/sfsyjd")
+    @ResponseBody
+    public String sfsyjd(String sptms,HttpServletRequest request) {
+        String f_zybm = (String) request.getSession().getAttribute("f_zybm");
+        String f_shbm = (String) request.getSession().getAttribute("f_shbm");
+        String result = "";
+        if (f_zybm == null) {
+            result = "尚未登录";
+        } else {
+            result = salesService.sfsyjd(sptms,f_shbm);
+        }
+        return result;
+    }
+
+
+    @RequestMapping("/queryByJxny")
+    @ResponseBody
+    public String queryByJxny(String f_jxxz,String f_ksrq,String f_jsrq,HttpServletRequest request) {
+        f_ksrq=f_ksrq.replace("-","");
+        f_jsrq=f_jsrq.replace("-","");
+        String f_zybm = (String) request.getSession().getAttribute("f_zybm");
+        String f_bmbm = (String) request.getSession().getAttribute("f_bmbm");
+        String f_shbm = (String) request.getSession().getAttribute("f_shbm");
+        String result = "";
+        if (f_zybm == null) {
+            result = "尚未登录";
+        } else {
+            result = salesService.queryByJxny(f_jxxz,f_ksrq,f_jsrq, f_bmbm,f_shbm,f_zybm);
+        }
+        return result;
+    }
+
+
+    @RequestMapping("/queryBySyzw")
+    @ResponseBody
+    public String queryBySyzw(String f_syzw,String f_ksrq,String f_jsrq,HttpServletRequest request) {
+        f_ksrq=f_ksrq.replace("-","");
+        f_jsrq=f_jsrq.replace("-","");
+        String f_zybm = (String) request.getSession().getAttribute("f_zybm");
+        String f_bmbm = (String) request.getSession().getAttribute("f_bmbm");
+        String f_shbm = (String) request.getSession().getAttribute("f_shbm");
+        String result = "";
+        if (f_zybm == null) {
+            result = "尚未登录";
+        } else {
+            result = salesService.queryBySyzw(f_syzw,f_ksrq,f_jsrq, f_bmbm,f_shbm,f_zybm);
+        }
+        return result;
+    }
 }

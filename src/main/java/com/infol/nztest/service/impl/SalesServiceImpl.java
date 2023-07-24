@@ -823,6 +823,164 @@ public class SalesServiceImpl implements SalesService {
         return result;
     }
 
+    @Override
+    public String sfsyjd(String sptms, String f_shbm) {
+        //创建连接池
+        openConnection();
+
+        String sql = "";
+        String result = "412";
+        try {
+            //查出豇豆的flbm
+            sql = "select f_flbm from tb"+f_shbm+"_tjmxwh where f_flmc='豇豆'";
+            String jdFlbm = sqlOperator.queryOneRecorderData(sql);//豇豆flbm
+
+            //查出商品适用范围的flbm
+            if (!sptms.equals("")){
+                String[] sptmsList = sptms.split(",");
+                for (int i = 0; i < sptmsList.length; i++){
+                    String sptm = sptmsList[i];
+                    sql = "select f_syfw from tb"+f_shbm+"_Spda where f_sptm='"+sptm+"'";
+                    String syfwResult = sqlOperator.queryOneRecorderData(sql);
+                    String[] syfwsList = syfwResult.split(",");
+                    for (int j = 0; j < syfwsList.length; j++){
+                        String syfwFlbm = syfwsList[j];
+                        if (jdFlbm.equals(syfwFlbm)){
+                            result = "ok";
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            result=e.getMessage();
+            e.printStackTrace();
+        } finally {
+            if(sqlOperator!=null){
+                sqlOperator.closeConnection();
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public String queryByJxny(String f_jxxz, String f_ksrq, String f_jsrq, String f_bmbm, String f_shbm, String f_zybm) {
+        //创建连接池
+        openConnection();
+
+        String sql = "";
+        String listResult = "";
+        List<String> syfwList = new ArrayList<>();
+        try {
+            sql = "select zb.f_Rzrq,bmda.f_Bmmc,zb.f_Djh,spda.f_Spmc,SUM(cb.f_Xssl) f_xssl,csda.f_Csmc,csda.f_Dh,csda.f_sfzh,spda.f_nybz,spda.f_fzdx,spda.f_syfw\n" +
+                    " from tb"+f_shbm+"_Xsmxzb zb\n" +
+                    " left join tb"+f_shbm+"_Xsmxcb cb on cb.f_Djh=zb.f_Djh\n" +
+                    " left join tb"+f_shbm+"_spda spda on spda.f_Sptm=cb.f_Sptm\n" +
+                    " left join tb"+f_shbm+"_Bmda bmda on bmda.f_Bmbm=zb.f_Bmbm\n" +
+                    " left join tb"+f_shbm+"_Csda csda on csda.f_Csbm=zb.f_Khbm\n" +
+                    " where zb.f_Rzrq between '"+f_ksrq+"' and '"+f_jsrq+"' \n";
+            if (f_jxxz.equals("0")){
+                sql += " and spda.f_nybz in ('1','2') \n";
+            }else if (f_jxxz.equals("1")){
+                sql += " and spda.f_nybz in ('1') \n";
+            }else if (f_jxxz.equals("2")){
+                sql += " and spda.f_nybz in ('2') \n";
+            }
+            sql += " group by zb.f_Rzrq,bmda.f_Bmmc,zb.f_Djh,spda.f_Spmc,csda.f_Csmc,csda.f_Dh,csda.f_sfzh,spda.f_nybz,spda.f_fzdx,spda.f_syfw\n" +
+                    " order by zb.f_Rzrq,zb.f_Djh";
+            listResult = sqlOperator.RunSQL_JSON(sql);
+
+            JSONArray jarr = new JSONArray(listResult);
+            for (int i = 0; i < jarr.length(); i++){
+                String syfwStr = jarr.getJSONObject(i).getString("F_SYFW");
+                String[] syfws = syfwStr.split(",");
+                String syfwmcs = "";
+                for (int j = 0; j < syfws.length; j++){
+                    sql = "select f_flmc from tb"+f_shbm+"_tjmxwh where f_flbm='"+syfws[j]+"'";
+                    String syfwmc = sqlOperator.queryOneRecorderData(sql);
+                    if (j == syfws.length -1){
+                        syfwmcs += syfwmc;
+                    }else {
+                        syfwmcs += syfwmc + ",";
+                    }
+                }
+                syfwList.add(i,syfwmcs);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if(sqlOperator!=null){
+                sqlOperator.closeConnection();
+            }
+        }
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("list",listResult);
+        jsonObject.put("syfw",syfwList);
+        return jsonObject.toString();
+    }
+
+    @Override
+    public String queryBySyzw(String f_syzw, String f_ksrq, String f_jsrq, String f_bmbm, String f_shbm, String f_zybm) {
+        //创建连接池
+        openConnection();
+
+        String sql = "";
+        String listResult = "";
+        List<String> syfwList = new ArrayList<>();
+        try {
+            sql = "select zb.f_Rzrq,bmda.f_Bmmc,zb.f_Djh,spda.f_Spmc,SUM(cb.f_Xssl) f_xssl,csda.f_Csmc,csda.f_Dh,csda.f_sfzh,spda.f_fzdx,spda.f_syfw\n" +
+                    " from tb"+f_shbm+"_Xsmxzb zb\n" +
+                    " left join tb"+f_shbm+"_Xsmxcb cb on cb.f_Djh=zb.f_Djh\n" +
+                    " left join tb"+f_shbm+"_spda spda on spda.f_Sptm=cb.f_Sptm\n" +
+                    " left join tb"+f_shbm+"_Bmda bmda on bmda.f_Bmbm=zb.f_Bmbm\n" +
+                    " left join tb"+f_shbm+"_Csda csda on csda.f_Csbm=zb.f_Khbm\n" +
+                    " where zb.f_Rzrq between '"+f_ksrq+"' and '"+f_jsrq+"' \n";
+            if (f_syzw != null && !f_syzw.equals("")){
+                sql += " and (f_syfw like ";
+                String[] f_syzws = f_syzw.split(",");
+                for (int i = 0; i < f_syzws.length; i++){
+                    String tempSql = "select f_flbm from tb"+f_shbm+"_tjmxwh where f_flmc like '"+f_syzws[i]+"'";
+                    String f_flbm = sqlOperator.queryOneRecorderData(tempSql);
+                    if (i == f_syzws.length-1){
+                        sql += "'%"+f_flbm+"%')";
+                    }else {
+                        sql += "'%"+f_flbm+"%' or f_syfw like";
+                    }
+                }
+
+            }
+            sql += " group by zb.f_Rzrq,bmda.f_Bmmc,zb.f_Djh,spda.f_Spmc,csda.f_Csmc,csda.f_Dh,csda.f_sfzh,spda.f_fzdx,spda.f_syfw\n" +
+                    " order by zb.f_Rzrq,zb.f_Djh";
+            listResult = sqlOperator.RunSQL_JSON(sql);
+
+            JSONArray jarr = new JSONArray(listResult);
+            for (int i = 0; i < jarr.length(); i++){
+                String syfwStr = jarr.getJSONObject(i).getString("F_SYFW");
+                String[] syfws = syfwStr.split(",");
+                String syfwmcs = "";
+                for (int j = 0; j < syfws.length; j++){
+                    sql = "select f_flmc from tb"+f_shbm+"_tjmxwh where f_flbm='"+syfws[j]+"'";
+                    String syfwmc = sqlOperator.queryOneRecorderData(sql);
+                    if (j == syfws.length -1){
+                        syfwmcs += syfwmc;
+                    }else {
+                        syfwmcs += syfwmc + ",";
+                    }
+                }
+                syfwList.add(i,syfwmcs);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if(sqlOperator!=null){
+                sqlOperator.closeConnection();
+            }
+        }
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("list",listResult);
+        jsonObject.put("syfw",syfwList);
+        return jsonObject.toString();
+    }
+
     //double 四舍五入;
     public double SplitAndRound(double a, int n) {
         a = a * Math.pow(10, n);
@@ -988,7 +1146,11 @@ public class SalesServiceImpl implements SalesService {
                     "from tb"+f_shbm+"_jyj jyj\n" +
                     "left join tb"+f_shbm+"_cstjmxdzb dzb  on jyj.f_flbm=dzb.f_flbm\n" +
                     "left join tb"+f_shbm+"_cslxbtbz btbz on btbz.f_flbm=jyj.f_flbm\n" +
-                    "where dzb.f_Csbm='"+khbm+"' and f_state='1' and btbz.f_Khlx=(select f_Khlx from tb"+f_shbm+"_Csda where f_Csbm='"+khbm+"') and jyj.f_jyjId='"+jyjId+"'";
+                    "where dzb.f_Csbm='"+khbm+"' " +
+                    "and f_state='1' " +
+                    "and btbz.f_Khlx=(select f_Khlx from tb"+f_shbm+"_Csda where f_Csbm='"+khbm+"') " +
+                    "and jyj.f_jyjId='"+jyjId+"' " +
+                    "and jyj.f_Khlx=(select f_Khlx from tb"+f_shbm+"_Csda where f_Csbm='"+khbm+"')";
             result = sqlOperator.RunSQL_JSON(sql);
             JSONArray jarr = new JSONArray(result);
             double zje = 0;//总金额

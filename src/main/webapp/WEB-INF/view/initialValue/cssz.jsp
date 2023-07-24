@@ -197,7 +197,14 @@
                 data: { csbmList:csbmList,cszList:cszList,timmer: new Date() },
                 success:function(data){
                     if (data == "ok"){
-                        alertMsg("保存成功！");
+                        alertMsg("保存成功，请重新登录！");
+                        $('#okbtn').click(function () {
+                            var win = window;
+                            while (win != win.top){
+                                win = win.top;
+                            }
+                            win.location = "/login";
+                        });
                     }
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {

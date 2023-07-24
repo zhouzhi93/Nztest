@@ -60,9 +60,10 @@ public class CommodityController {
                            String jhj,String jxsl,String xxsl,String scxkz,String ghs,String scqy,String splx,String nybz,
                            String nycpdjz,String nycpbz,String nycpbq,String nycpsms,String nycpzmwjbh,
                            String zhl,String jx,String mbzzl,String mbzzldw,String ppmc,String yxcf,String dx,
-                           String yxq,String syfw,HttpServletRequest request){
+                           String yxq,String syfw,String fzdx,String sfcz,HttpServletRequest request){
         return commodityService.saveSpda(sptm,djh,spmc,spfl,ggxh,jldw,xsj,jhj,jxsl,xxsl,scxkz,ghs,scqy,splx,nybz,
-                                        nycpdjz,nycpbz,nycpbq,nycpsms,nycpzmwjbh,zhl,jx,mbzzl,mbzzldw,ppmc,yxcf,dx,yxq,syfw,request);
+                                        nycpdjz,nycpbz,nycpbq,nycpsms,nycpzmwjbh,zhl,jx,mbzzl,mbzzldw,ppmc,yxcf,
+                                        dx,yxq,syfw,fzdx,sfcz,request);
     }
 
     @RequestMapping("/saveBjkc")
@@ -77,10 +78,10 @@ public class CommodityController {
                              String jhj,String jxsl,String xxsl,String scxkz,String ghs,String scqy,String splx,String nybz,
                              String nycpdjz,String nycpbz,String nycpbq,String nycpsms,String nycpzmwjbh,
                              String zhl,String jx,String mbzzl,String mbzzldw,String ppmc,String yxcf,String dx,String yxq,
-                             String syfw,HttpServletRequest request){
+                             String syfw,String sfcz,String fzdx,HttpServletRequest request){
         return commodityService.updateSpda(sptm,djh,spmc,spfl,ggxh,jldw,xsj,jhj,jxsl,xxsl,scxkz,ghs,scqy,splx,nybz,
                                             nycpdjz,nycpbz,nycpbq,nycpsms,nycpzmwjbh,zhl,jx,mbzzl,mbzzldw,ppmc,yxcf,dx,
-                                            yxq,syfw,request);
+                                            yxq,syfw,sfcz,fzdx,request);
     }
 
     @RequestMapping("/stopstart")

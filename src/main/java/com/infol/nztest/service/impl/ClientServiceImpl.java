@@ -1021,7 +1021,7 @@ public class ClientServiceImpl implements ClientService {
                     String cstjmx = sqlOperator.RunSQL_JSON(sql);
                     String sjflbm = flbm.substring(0,3);
                     //通过上级分类编码查询获得所有厂商编码
-                    sql = "select * from tb"+f_shbm+"_cstjmxdzb where f_flbm='"+sjflbm+"'";
+                    sql = "select distinct f_Csbm from tb"+f_shbm+"_cstjmxdzb where f_flbm like '"+sjflbm+"%' order by f_Csbm";
                     String csbmList = sqlOperator.RunSQL_JSON(sql);
                     JSONArray csbmJarr = new JSONArray(csbmList);
                     for (int i = 0; i < csbmJarr.length(); i++){
@@ -1045,19 +1045,27 @@ public class ClientServiceImpl implements ClientService {
                     String cstjmx = sqlOperator.RunSQL_JSON(sql);
                     String sjflbm = flbm.substring(0,6);
                     //通过上级分类编码查询获得所有厂商编码
-                    sql = "select * from tb"+f_shbm+"_cstjmxdzb where f_flbm='"+sjflbm+"'";
+                    sql = "select distinct f_Csbm from tb"+f_shbm+"_cstjmxdzb where f_flbm like '"+sjflbm+"%' order by f_Csbm";
                     String csbmList = sqlOperator.RunSQL_JSON(sql);
-                    JSONArray csbmJarr = new JSONArray(csbmList);
-                    for (int i = 0; i < csbmJarr.length(); i++){
-                        String csbm = csbmJarr.getJSONObject(i).getString("F_CSBM");
-                        if (cstjmx == null || cstjmx.equals("") || cstjmx.equals("[]")){
-                            sql ="insert into tb"+f_shbm+"_cstjmxdzb(f_Csbm,f_flbm)values('"+csbm+"','"+flbm+"')";
-                            sqls.add(sql);
-                        }else {
-                            sql ="update tb"+f_shbm+"_cstjmxdzb set f_Csbm='"+csbm+"',f_flbm='"+flbm+"'";
-                            sqls.add(sql);
+                    //上级分类编码有结果
+                    if (csbmList != null && !csbmList.equals("") && !csbmList.equals("[]")){
+                        JSONArray csbmJarr = new JSONArray(csbmList);
+                        //删除上级flbm
+                        sql = "delete tb"+f_shbm+"_cstjmxdzb where f_flbm='"+sjflbm+"'";
+                        sqls.add(sql);
+                        for (int i = 0; i < csbmJarr.length(); i++){
+                            String csbm = csbmJarr.getJSONObject(i).getString("F_CSBM");
+                            //cstjmxdzb中没数据插入数据，有数据修改csbm和flbm
+                            if (cstjmx == null || cstjmx.equals("") || cstjmx.equals("[]")){
+                                sql ="insert into tb"+f_shbm+"_cstjmxdzb(f_Csbm,f_flbm)values('"+csbm+"','"+flbm+"')";
+                                sqls.add(sql);
+                            }else {
+                                sql ="update tb"+f_shbm+"_cstjmxdzb set f_Csbm='"+csbm+"',f_flbm='"+flbm+"'";
+                                sqls.add(sql);
+                            }
                         }
                     }
+
                     sql = "update tb"+f_shbm+"_tjmxwh set f_mj='0' where f_flbm='"+sjflbm+"'";
                     sqls.add(sql);
                     sql = "insert into tb"+f_shbm+"_tjmxwh(f_flbm,f_flmc,f_flmx,f_jb,f_mj,f_dwmc) " +
@@ -1067,7 +1075,8 @@ public class ClientServiceImpl implements ClientService {
 
 
                 //查询该分类编码最上级，并且是否种养类型是否为1。
-                String flbmzsj = flbm.substring(0,3);
+                String flbmzsj = flbm.substring(0,3);//1级分类编码
+                String flbmej = flbm.substring(0,6);//2级分类编码
                 sql = "select f_flbm from tb"+f_shbm+"_tjlxwh where f_flbm='"+flbmzsj+"' and f_sfzylx='1'";
                 String tempResult = sqlOperator.queryOneRecorderData(sql);
                 //如果存在，将分类编码和客户类型存入厂商类型补贴标准表
@@ -1090,6 +1099,34 @@ public class ClientServiceImpl implements ClientService {
                     }
                     if (hzsVal.equals("1")){
                         sql ="insert into tb"+f_shbm+"_cslxbtbz(f_flbm,f_Khlx) values('"+flbm+"','2')";
+                        sqls.add(sql);
+                    }
+                }
+
+                //查询经营季表中是否有最上级分类编码结果，有结果插入，无结果说明非种养类型，跳过
+                sql = "select distinct f_jyjId,f_jyjName,f_startTime,f_endTime,f_Khlx\n" +
+                        "from tb"+f_shbm+"_jyj\n" +
+                        "where f_flbm like '"+flbmzsj+"%'";
+                String tempResultByJyj = sqlOperator.RunSQL_JSON(sql);
+                if (tempResultByJyj != null && !tempResultByJyj.equals("") && !tempResultByJyj.equals("[]")){
+                    //经营季表中删除上级flbm（插入三级flbm时可能触发）
+                    sql = "select * from tb"+f_shbm+"_jyj where f_flbm='"+flbmej+"'";
+                    tempResultByJyj = sqlOperator.RunSQL_JSON(sql);
+                    //二级非空删除
+                    if (tempResultByJyj != null && !tempResultByJyj.equals("") && !tempResultByJyj.equals("[]")){
+                        sql ="delete tb"+f_shbm+"_jyj where f_flbm='"+flbmej+"'";
+                        sqls.add(sql);
+                    }
+
+                    //判断经营季表中是否存在该分类编码，无则插入
+                    sql = "select * from tb"+f_shbm+"_jyj where f_flbm='"+flbm+"'";
+                    tempResultByJyj = sqlOperator.RunSQL_JSON(sql);
+                    if (tempResultByJyj == null || tempResultByJyj.equals("") || tempResultByJyj.equals("[]")){
+                        //经营季表插入数据
+                        sql ="insert into tb"+f_shbm+"_jyj\n" +
+                                "select distinct f_jyjId,f_jyjName,f_startTime,f_endTime,f_Khlx,'"+flbm+"' f_flbm,'1' f_state\n" +
+                                "from tb"+f_shbm+"_jyj\n" +
+                                "where f_flbm like '"+flbmzsj+"%'";
                         sqls.add(sql);
                     }
                 }
@@ -1165,6 +1202,14 @@ public class ClientServiceImpl implements ClientService {
             String btbzList = sqlOperator.RunSQL_JSON(sql);
             if (btbzList != null && !btbzList.equals("") && !btbzList.equals("[]")){
                 sql ="delete tb"+f_shbm+"_cslxbtbz where f_flbm like '"+flbm+"%'";
+                sqls.add(sql);
+            }
+
+            //经营季表中删除分类编码
+            sql ="select * from tb"+f_shbm+"_jyj where f_flbm like'"+flbm+"%'";
+            String jyjList = sqlOperator.RunSQL_JSON(sql);
+            if (jyjList != null && !jyjList.equals("") && !jyjList.equals("[]")){
+                sql ="delete tb"+f_shbm+"_jyj where f_flbm like'"+flbm+"%'";
                 sqls.add(sql);
             }
 
@@ -1775,6 +1820,16 @@ public class ClientServiceImpl implements ClientService {
                     sqls.add(sql);
                 }
                 sqlOperator.ExecSql(sqls);
+
+                //注销
+                request.getSession().removeAttribute("f_sjhm");
+                request.getSession().removeAttribute("f_zybm");
+                request.getSession().removeAttribute("f_bmbm");
+                request.getSession().removeAttribute("f_zymc");
+                request.getSession().removeAttribute("f_shbm");
+                request.getSession().removeAttribute("f_zymc");
+
+
                 result = "ok";
             }
         } catch (Exception e) {

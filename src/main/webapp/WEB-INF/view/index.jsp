@@ -6,6 +6,9 @@
     String f_zymc= (String) session.getAttribute("f_zymc");
     String f_shmc= (String) session.getAttribute("f_shmc");
     String ypd = (String) session.getAttribute("f_lxbm");
+    String f_title=(String)session.getAttribute("f_title");
+    String f_xTitle=(String)session.getAttribute("f_xTitle");
+    String f_cTitle=(String)session.getAttribute("f_cTitle");
     String f_qyck=(String)session.getAttribute("f_qyck");
 %>
 <%--<!DOCTYPE html> &lt;%&ndash;<html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"&ndash;%&gt;--%>
@@ -28,6 +31,13 @@
         #rollText div{
             width: 300px;
         }
+        .cdkdsz{
+            display: inline-block;
+            width: 100px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
     </style>
 </head>
 <body>
@@ -37,7 +47,9 @@
 <![endif]-->
 <header class="am-topbar am-topbar-inverse admin-header">
     <div class="am-topbar-brand">
-        <strong>云平台客户端</strong>
+        <strong id="f_title"></strong>&nbsp;&nbsp;&nbsp;&nbsp;
+        <strong id="f_xTitle"></strong>&nbsp;&nbsp;&nbsp;&nbsp;
+        <strong id="f_cTitle"></strong>
     </div>
 
     <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
@@ -107,104 +119,105 @@
                         <li class="am-hide"  id="qx0101">
                             <a href="JavaScript:void(0)" onclick="checkTab(this,'/sales/salesbill')" class="am-cf">
                                 <span class="am-icon-check"></span>
-                                <span id="qx01001value"></span>
+                                <span id="qx01001value" class="cdkdsz"></span>
                                 <span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span>
                             </a>
                         </li>
-                        <li class="am-hide" id="qx0102"><a href="JavaScript:void(0)" onclick="checkTab(this,'/sales/salesreturn')" class="am-cf"><span class="am-icon-check"></span><span id="qx01002value"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
-                        <li class="am-hide" id="qx0103"><a href="JavaScript:void(0)" onclick="checkTab(this,'/sales/salesdetail')"><span class="am-icon-puzzle-piece"></span><span id="qx01003value"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+                        <li class="am-hide" id="qx0102"><a href="JavaScript:void(0)" onclick="checkTab(this,'/sales/salesreturn')" class="am-cf"><span class="am-icon-check"></span><span id="qx01002value" class="cdkdsz"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+                        <li class="am-hide" id="qx0103"><a href="JavaScript:void(0)" onclick="checkTab(this,'/sales/salesdetail')"><span class="am-icon-puzzle-piece"></span><span id="qx01003value" class="cdkdsz"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+                        <li class="am-hide" id="qx0104"><a href="JavaScript:void(0)" onclick="checkTab(this,'/sales/xjnyxstj')"><span class="am-icon-puzzle-piece"></span><span id="qx01004value" class="cdkdsz"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
                     </ul>
                 </li>
                 <li class="admin-parent am-hide" id="qx02">
                     <a class="am-cf" data-am-collapse="{target: '#collapse-jinhuo'}"><span><img src="/images/title_jh.png" style="width:20px;height: 19px;"></span><span id="qx02value"></span><span class="am-icon-angle-right am-fr am-margin-right"></span></a>
                     <ul class="am-list am-collapse admin-sidebar-sub" id="collapse-jinhuo">
-                        <li class="am-hide" id="qx0201"><a href="JavaScript:void(0)" onclick="checkTab(this,'/purchase/purchasebill')" class="am-cf"><span class="am-icon-check"></span><span id="qx02001value"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
-                        <li class="am-hide" id="qx0202"><a href="JavaScript:void(0)" onclick="checkTab(this,'/purchase/purchasereturnbill')" class="am-cf"><span class="am-icon-check"></span><span id="qx02002value"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
-                        <li class="am-hide" id="qx0203"><a href="JavaScript:void(0)" onclick="checkTab(this,'/purchase/purchasedetail')"><span class="am-icon-puzzle-piece"></span><span id="qx02003value"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+                        <li class="am-hide" id="qx0201"><a href="JavaScript:void(0)" onclick="checkTab(this,'/purchase/purchasebill')" class="am-cf"><span class="am-icon-check"></span><span id="qx02001value" class="cdkdsz"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+                        <li class="am-hide" id="qx0202"><a href="JavaScript:void(0)" onclick="checkTab(this,'/purchase/purchasereturnbill')" class="am-cf"><span class="am-icon-check"></span><span id="qx02002value" class="cdkdsz"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+                        <li class="am-hide" id="qx0203"><a href="JavaScript:void(0)" onclick="checkTab(this,'/purchase/purchasedetail')"><span class="am-icon-puzzle-piece"></span><span id="qx02003value" class="cdkdsz"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
                     </ul>
                 </li>
                 <li class="admin-parent am-hide" id="qx09">
                     <a class="am-cf" data-am-collapse="{target: '#collapse-qiankuan'}"><span><img src="/images/title_xs.png" style="width:20px;height: 19px;"></span><span id="qx09value"></span><span class="am-icon-angle-right am-fr am-margin-right"></span></a>
                     <ul class="am-list am-collapse admin-sidebar-sub" id="collapse-qiankuan">
-                        <li class="am-hide" id="qx0901"><a href="JavaScript:void(0)" onclick="checkTab(this,'/arrearage/Prrearagedetail')" class="am-cf"><span class="am-icon-check"></span><span id="qx09001value"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+                        <li class="am-hide" id="qx0901"><a href="JavaScript:void(0)" onclick="checkTab(this,'/arrearage/Prrearagedetail')" class="am-cf"><span class="am-icon-check"></span><span id="qx09001value" class="cdkdsz"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
                     </ul>
                 </li>
                 <li class="admin-parent am-hide" id="qx03" >
                     <a class="am-cf"data-am-collapse="{target: '#collapse-sunyi'}"><span><img src="/images/title_sy.png" style="width:20px;height: 19px;"></span><span id="qx03value"></span><span class="am-icon-angle-right am-fr am-margin-right"></span></a>
                     <ul class="am-list am-collapse admin-sidebar-sub " id="collapse-sunyi">
-                        <li class="am-hide"  id="qx0301"><a href="JavaScript:void(0)" onclick="checkTab(this,'/gainsLosses/gainsLossesbill')" class="am-cf"><span class="am-icon-check"></span><span id="qx03001value"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
-                        <li class="am-hide"  id="qx0302"><a href="JavaScript:void(0)" onclick="checkTab(this,'/gainsLosses/gainsquery')"><span class="am-icon-puzzle-piece"></span><span id="qx03002value"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+                        <li class="am-hide"  id="qx0301"><a href="JavaScript:void(0)" onclick="checkTab(this,'/gainsLosses/gainsLossesbill')" class="am-cf"><span class="am-icon-check"></span><span id="qx03001value" class="cdkdsz"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+                        <li class="am-hide"  id="qx0302"><a href="JavaScript:void(0)" onclick="checkTab(this,'/gainsLosses/gainsquery')"><span class="am-icon-puzzle-piece"></span><span id="qx03002value" class="cdkdsz"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
 
                     </ul>
                 </li>
                 <li class="admin-parent am-hide" id="qx08">
                     <a class="am-cf" data-am-collapse="{target: '#collapse-diaobo'}"><span><img src="/images/title_db.png" style="width:20px;height: 19px;"></span><span id="qx08value"></span><span class="am-icon-angle-right am-fr am-margin-right"></span></a>
                     <ul class="am-list am-collapse admin-sidebar-sub" id="collapse-diaobo">
-                        <li class="am-hide" id="qx0801"><a href="JavaScript:void(0)" onclick="checkTab(this,'/allot/allocationBill')" class="am-cf"><span class="am-icon-check"></span><span id="qx08001value"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
-                        <li class="am-hide" id="qx0802"><a href="JavaScript:void(0)" onclick="checkTab(this,'/allot/allocationBillquery')"><span class="am-icon-puzzle-piece"></span><span id="qx08002value"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+                        <li class="am-hide" id="qx0801"><a href="JavaScript:void(0)" onclick="checkTab(this,'/allot/allocationBill')" class="am-cf"><span class="am-icon-check"></span><span id="qx08001value" class="cdkdsz"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+                        <li class="am-hide" id="qx0802"><a href="JavaScript:void(0)" onclick="checkTab(this,'/allot/allocationBillquery')"><span class="am-icon-puzzle-piece"></span><span id="qx08002value" class="cdkdsz"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
                     </ul>
                 </li>
                 <li class="admin-parent am-hide" id="qx00" >
                     <a class="am-cf"data-am-collapse="{target: '#collapse-shengchan'}"><span><img src="/images/title_sc.png" style="width:20px;height: 19px;"></span><span id="qx00value"></span><span class="am-icon-angle-right am-fr am-margin-right"></span></a>
                     <ul class="am-list am-collapse admin-sidebar-sub " id="collapse-shengchan">
-                        <li class="am-hide"  id="qx0001"><a href="JavaScript:void(0)" onclick="checkTab(this,'/production/pickupbill')" class="am-cf"><span class="am-icon-check"></span><span id="qx00001value"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
-                        <li class="am-hide"  id="qx0002"><a href="JavaScript:void(0)" onclick="checkTab(this,'/production/pickupdetail')"><span class="am-icon-puzzle-piece"></span><span id="qx00002value"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
-                        <li class="am-hide"  id="qx0003"><a href="JavaScript:void(0)" onclick="checkTab(this,'/production/productsalesbill')" class="am-cf"><span class="am-icon-check"></span><span id="qx00003value"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
-                        <li class="am-hide"  id="qx0004"><a href="JavaScript:void(0)" onclick="checkTab(this,'/production/productsalesdetail')"><span class="am-icon-puzzle-piece"></span><span id="qx00004value"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+                        <li class="am-hide"  id="qx0001"><a href="JavaScript:void(0)" onclick="checkTab(this,'/production/pickupbill')" class="am-cf"><span class="am-icon-check"></span><span id="qx00001value" class="cdkdsz"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+                        <li class="am-hide"  id="qx0002"><a href="JavaScript:void(0)" onclick="checkTab(this,'/production/pickupdetail')"><span class="am-icon-puzzle-piece"></span><span id="qx00002value" class="cdkdsz"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+                        <li class="am-hide"  id="qx0003"><a href="JavaScript:void(0)" onclick="checkTab(this,'/production/productsalesbill')" class="am-cf"><span class="am-icon-check"></span><span id="qx00003value" class="cdkdsz"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+                        <li class="am-hide"  id="qx0004"><a href="JavaScript:void(0)" onclick="checkTab(this,'/production/productsalesdetail')"><span class="am-icon-puzzle-piece"></span><span id="qx00004value" class="cdkdsz"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
                     </ul>
                 </li>
                 <li class="admin-parent am-hide" id="qx05">
                     <a class="am-cf" data-am-collapse="{target: '#collapse-taizhang'}"><span><img src="/images/title_tz.png" style="width:20px;height: 19px;"></span><span id="qx05value"></span><span class="am-icon-angle-right am-fr am-margin-right"></span></a>
                     <ul class="am-list am-collapse admin-sidebar-sub" id="collapse-taizhang">
-                        <li class="am-hide"  id="qx0501"><a href="JavaScript:void(0)" onclick="checkTab(this,'/parameters/salesparameter')" class="am-cf"><span class="am-icon-check"></span><span id="qx05001value"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
-                        <li class="am-hide"  id="qx0502"><a href="JavaScript:void(0)" onclick="checkTab(this,'/parameters/procurementparameter')" class="am-cf"><span class="am-icon-check"></span><span id="qx05002value"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+                        <li class="am-hide"  id="qx0501"><a href="JavaScript:void(0)" onclick="checkTab(this,'/parameters/salesparameter')" class="am-cf"><span class="am-icon-check"></span><span id="qx05001value" class="cdkdsz"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+                        <li class="am-hide"  id="qx0502"><a href="JavaScript:void(0)" onclick="checkTab(this,'/parameters/procurementparameter')" class="am-cf"><span class="am-icon-check"></span><span id="qx05002value" class="cdkdsz"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
                     </ul>
                 </li>
                 <li class="admin-parent am-hide"  id="qx06">
                     <a class="am-cf" data-am-collapse="{target: '#collapse-kucun'}"><span><img src="/images/title_kc.png" style="width:20px;height: 19px;"></span><span id="qx06value"></span><span class="am-icon-angle-right am-fr am-margin-right"></span></a>
                     <ul class="am-list am-collapse admin-sidebar-sub" id="collapse-kucun">
-                        <li class="am-hide" id="qx0601"><a href="JavaScript:void(0)" onclick="checkTab(this,'/repertorys/gotoRepertory')" class="am-cf"><span class="am-icon-check"></span><span id="qx06001value"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+                        <li class="am-hide" id="qx0601"><a href="JavaScript:void(0)" onclick="checkTab(this,'/repertorys/gotoRepertory')" class="am-cf"><span class="am-icon-check"></span><span id="qx06001value" class="cdkdsz"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
                         <%--库存特殊菜单div--%>
                         <div class="am-list" id="kctscdDiv" style="margin: 0">
-                            <li class="am-hide" id="qx0602"><a href="JavaScript:void(0)" onclick="checkTab(this,'/repertorys/gotoYkcl')" class="am-cf"><span class="am-icon-check"></span><span id="qx06002value"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
-                            <li class="am-hide" id="qx0603"><a href="JavaScript:void(0)" onclick="checkTab(this,'/repertorys/gotoCkbb')" class="am-cf"><span class="am-icon-check"></span><span id="qx06003value"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+                            <li class="am-hide" id="qx0602"><a href="JavaScript:void(0)" onclick="checkTab(this,'/repertorys/gotoYkcl')" class="am-cf"><span class="am-icon-check"></span><span id="qx06002value" class="cdkdsz"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+                            <li class="am-hide" id="qx0603"><a href="JavaScript:void(0)" onclick="checkTab(this,'/repertorys/gotoCkbb')" class="am-cf"><span class="am-icon-check"></span><span id="qx06003value" class="cdkdsz"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
                         </div>
                     </ul>
                 </li>
                 <li class="admin-parent" id="qx07">
                     <a class="am-cf" data-am-collapse="{target: '#collapse-ziliao'}"><span><img src="/images/title_zl.png" style="width:20px;height: 19px;"></span><span id="qx07value"></span><span class="am-icon-angle-right am-fr am-margin-right"></span></a>
                     <ul class="am-list am-collapse admin-sidebar-sub" id="collapse-ziliao">
-                        <li class="am-hide" id="qx0701"><a href="JavaScript:void(0)" onclick="checkTab(this,'/stor/gotoStor')" class="am-cf"><span class="am-icon-check"></span><span id="qx07001value"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
-                        <li class="am-hide" id="qx0702"><a href="JavaScript:void(0)" onclick="checkTab(this,'/clerk/gotoClerk')" class="am-cf"><span class="am-icon-check"></span><span id="qx07002value"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
-                        <li class="am-hide" id="qx0703"><a href="JavaScript:void(0)" onclick="checkTab(this,'/commodity/gotoSplb')" class="am-cf"><span class="am-icon-check"></span><span id="qx07003value"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
-                        <li class="am-hide" id="qx0704"><a href="JavaScript:void(0)" onclick="checkTab(this,'/commodity/gotoCommodity')" class="am-cf"><span class="am-icon-check"></span><span id="qx07004value"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
-                        <li class="am-hide" id="qx0705"><a href="JavaScript:void(0)" onclick="checkTab(this,'/initialvalues/gotoSupplier')" class="am-cf"><span class="am-icon-check"></span><span id="qx07005value"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
-                        <li class="am-hide" id="qx0706"><a href="JavaScript:void(0)" onclick="checkTab(this,'/initialvalues/gotoClient')" class="am-cf"><span class="am-icon-check"></span><span id="qx07006value"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
-                        <li class="am-hide" id="qx0707"><a href="JavaScript:void(0)" onclick="checkTab(this,'/character/gotoJswh')" class="am-cf"><span class="am-icon-check"></span><span id="qx07007value"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+                        <li class="am-hide" id="qx0701"><a href="JavaScript:void(0)" onclick="checkTab(this,'/stor/gotoStor')" class="am-cf"><span class="am-icon-check"></span><span id="qx07001value" class="cdkdsz"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+                        <li class="am-hide" id="qx0702"><a href="JavaScript:void(0)" onclick="checkTab(this,'/clerk/gotoClerk')" class="am-cf"><span class="am-icon-check"></span><span id="qx07002value" class="cdkdsz"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+                        <li class="am-hide" id="qx0703"><a href="JavaScript:void(0)" onclick="checkTab(this,'/commodity/gotoSplb')" class="am-cf"><span class="am-icon-check"></span><span id="qx07003value" class="cdkdsz"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+                        <li class="am-hide" id="qx0704"><a href="JavaScript:void(0)" onclick="checkTab(this,'/commodity/gotoCommodity')" class="am-cf"><span class="am-icon-check"></span><span id="qx07004value" class="cdkdsz"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+                        <li class="am-hide" id="qx0705"><a href="JavaScript:void(0)" onclick="checkTab(this,'/initialvalues/gotoSupplier')" class="am-cf"><span class="am-icon-check"></span><span id="qx07005value" class="cdkdsz"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+                        <li class="am-hide" id="qx0706"><a href="JavaScript:void(0)" onclick="checkTab(this,'/initialvalues/gotoClient')" class="am-cf"><span class="am-icon-check"></span><span id="qx07006value" class="cdkdsz"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+                        <li class="am-hide" id="qx0707"><a href="JavaScript:void(0)" onclick="checkTab(this,'/character/gotoJswh')" class="am-cf"><span class="am-icon-check"></span><span id="qx07007value" class="cdkdsz"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
 
                         <%--基础档案特殊菜单div--%>
                         <div class="am-list" id="jcdatscdDiv" style="margin: 0">
-                            <li class="am-hide" id="qx0711"><a href=\"JavaScript:void(0)\" onclick="checkTab(this,'/initialvalues/gotoTjlxwh')" class="am-cf"><span class="am-icon-check"></span><span id="qx070011value"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
-                            <li class="am-hide" id="qx0712"><a href=\"JavaScript:void(0)\" onclick="checkTab(this,'/initialvalues/gotoTjmxwh')" class="am-cf"><span class="am-icon-check"></span><span id="qx070012value"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
-                            <li class="am-hide" id="qx0713"><a href=\"JavaScript:void(0)\" onclick="checkTab(this,'/initialvalues/gotoBtbzsz')" class="am-cf"><span class="am-icon-check"></span><span id="qx070013value"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
-                            <li class="am-hide" id="qx0714"><a href=\"JavaScript:void(0)\" onclick="checkTab(this,'/initialvalues/gotoJyjsz')" class="am-cf"><span class="am-icon-check"></span><span id="qx070014value"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+                            <li class="am-hide" id="qx0711"><a href="JavaScript:void(0)" onclick="checkTab(this,'/initialvalues/gotoTjlxwh')" class="am-cf"><span class="am-icon-check"></span><span id="qx070011value" class="cdkdsz"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+                            <li class="am-hide" id="qx0712"><a href="JavaScript:void(0)" onclick="checkTab(this,'/initialvalues/gotoTjmxwh')" class="am-cf"><span class="am-icon-check"></span><span id="qx070012value" class="cdkdsz"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+                            <li class="am-hide" id="qx0713"><a href="JavaScript:void(0)" onclick="checkTab(this,'/initialvalues/gotoBtbzsz')" class="am-cf"><span class="am-icon-check"></span><span id="qx070013value" class="cdkdsz"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+                            <li class="am-hide" id="qx0714"><a href="JavaScript:void(0)" onclick="checkTab(this,'/initialvalues/gotoJyjsz')" class="am-cf"><span class="am-icon-check"></span><span id="qx070014value" class="cdkdsz"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
                         </div>
 
-                        <li class="am-hide" id="qx0708"><a href="JavaScript:void(0)" onclick="checkTab(this,'/initialvalues/gotoCssz')" class="am-cf"><span class="am-icon-check"></span><span id="qx07008value"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
-                        <li class="am-hide" id="qx0709"><a href="JavaScript:void(0)" onclick="checkTab(this,'/initialvalues/gotoCkda')" class="am-cf"><span class="am-icon-check"></span><span id="qx07009value"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
-                        <li class="am-hide" id="qx0710"><a href="JavaScript:void(0)" onclick="checkTab(this,'/initialvalues/gotoGsxx')" class="am-cf"><span class="am-icon-check"></span><span id="qx070010value"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+                        <li class="am-hide" id="qx0708"><a href="JavaScript:void(0)" onclick="checkTab(this,'/initialvalues/gotoCssz')" class="am-cf"><span class="am-icon-check"></span><span id="qx07008value" class="cdkdsz"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+                        <li class="am-hide" id="qx0709"><a href="JavaScript:void(0)" onclick="checkTab(this,'/initialvalues/gotoCkda')" class="am-cf"><span class="am-icon-check"></span><span id="qx07009value" class="cdkdsz"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+                        <li class="am-hide" id="qx0710"><a href="JavaScript:void(0)" onclick="checkTab(this,'/initialvalues/gotoGsxx')" class="am-cf"><span class="am-icon-check"></span><span id="qx070010value" class="cdkdsz"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
                     </ul>
                 </li>
                 <li class="admin-parent" id="qx10">
                     <a class="am-cf" data-am-collapse="{target: '#collapse-baozhuangwu'}"><span><img src="/images/title_bzw.png" style="width:20px;height: 19px;"></span><span id="qx010value"></span><span class="am-icon-angle-right am-fr am-margin-right"></span></a>
                     <ul class="am-list am-collapse admin-sidebar-sub" id="collapse-baozhuangwu">
-                        <li class="am-hide" id="qx1001"><a href="JavaScript:void(0)" onclick="checkTab(this,'/packing/packingspda')" class="am-cf"><span class="am-icon-check"></span><span id="qx010001value"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
-                        <li class="am-hide" id="qx1002"><a href="JavaScript:void(0)" onclick="checkTab(this,'/packing/packManageRecord')" class="am-cf"><span class="am-icon-check"></span><span id="qx010002value"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
-                        <li class="am-hide" id="qx1003"><a href="JavaScript:void(0)" onclick="checkTab(this,'/packing/packingdetail')"><span class="am-icon-puzzle-piece"></span><span id="qx010003value"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
-                        <li class="am-hide" id="qx1004"><a href="JavaScript:void(0)" onclick="checkTab(this,'/packing/bzwbrd')"><span class="am-icon-check"></span><span id="qx010004value"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
-                        <li class="am-hide" id="qx1005"><a href="JavaScript:void(0)" onclick="checkTab(this,'/packing/bzwbrcx')"><span class="am-icon-puzzle-piece"></span><span id="qx010005value"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
-                        <li class="am-hide" id="qx1006"><a href="JavaScript:void(0)" onclick="checkTab(this,'/packing/bzwbcd')"><span class="am-icon-check"></span><span id="qx010006value"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
-                        <li class="am-hide" id="qx1007"><a href="JavaScript:void(0)" onclick="checkTab(this,'/packing/bzwbccx')"><span class="am-icon-puzzle-piece"></span><span id="qx010007value"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+                        <li class="am-hide" id="qx1001"><a href="JavaScript:void(0)" onclick="checkTab(this,'/packing/packingspda')" class="am-cf"><span class="am-icon-check"></span><span id="qx010001value" class="cdkdsz"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+                        <li class="am-hide" id="qx1002"><a href="JavaScript:void(0)" onclick="checkTab(this,'/packing/packManageRecord')" class="am-cf"><span class="am-icon-check"></span><span id="qx010002value" class="cdkdsz"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+                        <li class="am-hide" id="qx1003"><a href="JavaScript:void(0)" onclick="checkTab(this,'/packing/packingdetail')"><span class="am-icon-puzzle-piece"></span><span id="qx010003value" class="cdkdsz"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+                        <li class="am-hide" id="qx1004"><a href="JavaScript:void(0)" onclick="checkTab(this,'/packing/bzwbrd')"><span class="am-icon-check"></span><span id="qx010004value" class="cdkdsz"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+                        <li class="am-hide" id="qx1005"><a href="JavaScript:void(0)" onclick="checkTab(this,'/packing/bzwbrcx')"><span class="am-icon-puzzle-piece"></span><span id="qx010005value" class="cdkdsz"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+                        <li class="am-hide" id="qx1006"><a href="JavaScript:void(0)" onclick="checkTab(this,'/packing/bzwbcd')"><span class="am-icon-check"></span><span id="qx010006value" class="cdkdsz"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+                        <li class="am-hide" id="qx1007"><a href="JavaScript:void(0)" onclick="checkTab(this,'/packing/bzwbccx')"><span class="am-icon-puzzle-piece"></span><span id="qx010007value" class="cdkdsz"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
                     </ul>
                 </li>
                 <%--信息管理，暂时不用--%>
@@ -233,11 +246,11 @@
                 <li class="admin-parent" id="qx12">
                     <a class="am-cf" data-am-collapse="{target: '#collapse-baobiao'}"><span><img src="/images/title_bzw.png" style="width:20px;height: 19px;"></span><span id="qx012value"></span><span class="am-icon-angle-right am-fr am-margin-right"></span></a>
                     <ul class="am-list am-collapse admin-sidebar-sub" id="collapse-baobiao">
-                        <li class="am-hide" id="qx1201"><a href="JavaScript:void(0)" onclick="checkTab(this,'/report/zhjxccx')" class="am-cf"><span class="am-icon-check"></span><span id="qx012001value"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
-                        <li class="am-hide" id="qx1202"><a href="JavaScript:void(0)" onclick="checkTab(this,'/report/crkcx')" class="am-cf"><span class="am-icon-check"></span><span id="qx012002value"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+                        <li class="am-hide" id="qx1201"><a href="JavaScript:void(0)" onclick="checkTab(this,'/report/zhjxccx')" class="am-cf"><span class="am-icon-check"></span><span id="qx012001value" class="cdkdsz"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+                        <li class="am-hide" id="qx1202"><a href="JavaScript:void(0)" onclick="checkTab(this,'/report/crkcx')" class="am-cf"><span class="am-icon-check"></span><span id="qx012002value" class="cdkdsz"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
                         <%--销售季报表div--%>
                         <div class="am-list" id="xsjbbDiv" style="margin: 0">
-                            <li class="am-hide" id="qx1203"><a href="JavaScript:void(0)" onclick="checkTab(this,'/report/gotoXsjbb')" class="am-cf"><span class="am-icon-check"></span><span id="qx012003value"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+                            <li class="am-hide" id="qx1203"><a href="JavaScript:void(0)" onclick="checkTab(this,'/report/gotoXsjbb')" class="am-cf"><span class="am-icon-check"></span><span id="qx012003value" class="cdkdsz"></span><span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
                         </div>
                     </ul>
                 </li>
@@ -464,6 +477,10 @@
         if('<%=ypd%>' != '1' && "<%=ypd%>" != '0'){
             $('.xsqxdix').hide();
         }
+
+        $("#f_title").html("<%=f_title%>");
+        $("#f_xTitle").html("<%=f_xTitle%>");
+        $("#f_cTitle").html("<%=f_cTitle%>");
     });
     
     function loadBjkcOpen() {
@@ -624,7 +641,7 @@
                 var dataJson = JSON.parse(data);
                 yjqxList = dataJson;
                 for (var i = 0; i < dataJson.length; i++){
-                    qxyjid = "#qx0"+i+""+"value";
+                    qxyjid = "#qx0"+i+"value";
                     $(qxyjid).html("&nbsp;&nbsp;&nbsp;"+dataJson[i].F_QXMC);
                 }
             },
@@ -649,7 +666,7 @@
                 success: function (data) {
                     var dataJson = JSON.parse(data);
                     for (var j = 0; j < dataJson.length; j++){
-                        qxejid = "#qx0"+i+""+"00"+(j+1)+""+"value";
+                        qxejid = "#qx0"+i+"00"+(j+1)+"value";
                         $(qxejid).html(dataJson[j].F_QXMC);
                     }
                 },

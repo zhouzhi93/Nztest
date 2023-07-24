@@ -18,6 +18,7 @@
     String lxbm=(String)session.getAttribute("f_lxbm");
     String zdrmc=(String)session.getAttribute("f_zymc");
     String f_qyck=(String)session.getAttribute("f_qyck");
+    String f_jdxsdts=(String)session.getAttribute("f_jdxsdts");
     String f_qygmxe=(String)session.getAttribute("f_qygmxe");
 %>
 <%--<!DOCTYPE html>--%>
@@ -207,6 +208,11 @@
 
                     </tbody>
                 </table>
+            </div>
+            <div class="am-container">
+                <div class="am-u-sm-12 am-u-md-12" id="jdtsdiv" style="color: red;">
+
+                </div>
             </div>
             <div class="am-container">
                 <div class="am-u-sm-6 am-u-md-6"><div class="am-cf">
@@ -861,6 +867,7 @@
                     <tr><td colspan=4 style='text-align:left'><span style='font-weight:bold;'>应收:</span><text id="prt_xj"></text></td></tr>
                     <tr><td colspan=4 style='text-align:left'><span style='font-weight:bold;'>找零:</span><text id="prt_zl"></text></td></tr>
                     <tr><td colspan=4 style='text-align:left'><span style='font-weight:bold;'>大写:</span><text id="prt_dxje"></text></td></tr>
+                    <tr><td colspan=4 ><text id="prt_jdts" style="text-align: left;"></text></td></tr>
                     <tr><th colspan=4 >请妥善保管此票据</th></tr>
                 </table>
             </div>
@@ -887,6 +894,7 @@
         var clickCsbm = null;
         var slJson = null;
         var qyck = <%=f_qyck%>;
+        var sfsyjdFlag=false;
 
         $(function(){
             loadCkcs();
@@ -1802,6 +1810,12 @@
                         $('#prt_dxje').text(dxje);
                         var jysk=new Date().Format("yyyy-MM-dd hh:mm:ss");
                         $('#prt_jysk').text(jysk);
+
+                        //豇豆提示信息打印
+                        if (sfsyjdFlag == true && "<%=f_jdxsdts%>" == 1){
+                            $('#prt_jdts').text("提示：请根据农药标签指导规范用药！");
+                        }
+
                         var sfdyxp=$('#f_sfdyxp').attr('checked');
                         if(sfdyxp=="checked"){
                             $('#okbtn').click(function () {
@@ -1952,7 +1966,28 @@
                     $("#sptable").find("#tishitr").remove();
                 };
 
-                spcount=$("#sptable").find('tr').length;
+
+                //判断销售商品是否适用豇豆，适用并且参数设置打开的话给提示
+                var sptms = "";
+                spcount = $("#sptable").find('tr').length;//商品数量
+                for (var i = 0;i < spcount; i++){
+                    var sptm = $("#sptable").find("tr").eq(i).attr("sptm");
+                    if (i == spcount-1){
+                        sptms += sptm;
+                    }else {
+                        sptms += sptm + ",";
+                    }
+                }
+
+                //判断商品是否适用豇豆
+                sfsyjd(sptms);
+                if (sfsyjdFlag == true && "<%=f_jdxsdts%>" == 1){
+                    $('#jdtsdiv').html("提示:请提醒购药人根据农药标签指导规范用药!");
+                }
+
+
+
+
                 $(this).addClass("am-gallery-item-boder");
                 var hjje=resum_hjje();
                 $('#hjje').text(hjje);
@@ -2077,6 +2112,29 @@
             $("#xzfkfsDiv").show();
             $("#kpDiv").show();
         }
+
+
+        //判断商品是否适用豇豆
+        function sfsyjd(sptms){
+            $.ajax({
+                url: "/sales/sfsyjd",
+                type: "post",
+                async: false,
+                data: { sptms: sptms, timeer: new Date() },
+                success: function (data) {
+                    if (data == "ok"){
+                        sfsyjdFlag=true;
+                    }else if (data == "412"){
+                        sfsyjdFlag=false;
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert(errorThrown + "||" + textStatus);
+                }
+            });
+        }
+
+
 
         //清除界面值
         function clearpage(){
@@ -2287,6 +2345,25 @@
         function deleteSelf(event){
             var sptm= $(event).parent().parent().attr('sptm');
             $(event).parent().parent().remove();
+
+            //判断销售商品是否适用豇豆，适用并且参数设置打开的话给提示
+            var sptms = "";
+            spcount = $("#sptable").find('tr').length;//商品数量
+            for (var i = 0;i < spcount; i++){
+                var f_sptm = $("#sptable").find("tr").eq(i).attr("sptm");
+                if (i == spcount-1){
+                    sptms += f_sptm;
+                }else {
+                    sptms += f_sptm + ",";
+                }
+            }
+
+            //判断商品是否适用豇豆
+            sfsyjd(sptms);
+            if (sfsyjdFlag == false && "<%=f_jdxsdts%>" == 1){
+                $('#jdtsdiv').html("");
+            }
+
             recountSppz();
             checksp_spda(sptm);
         }

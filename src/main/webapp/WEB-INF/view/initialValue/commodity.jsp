@@ -447,7 +447,7 @@
                             <label class="am-u-sm-2 am-form-label" style="padding: 0px;">是否称重</label>
                             <div class="am-u-sm-9 am-text-left">
                                 <label class="am-radio-inline">
-                                    <input type="radio"  value="0" name="f_sfcz"> 否
+                                    <input type="radio"  value="0" checked name="f_sfcz"> 否
                                 </label>
                                 <label class="am-radio-inline">
                                     <input type="radio" value="1" name="f_sfcz"> 是
@@ -455,14 +455,17 @@
                             </div>
                             <div class="am-u-sm-end"></div>
                         </div>
-                        <div class="am-form-group">
+                        <div class="am-form-group gdzwxs">
                             <label class="am-u-sm-2 am-form-label" style="padding: 0px;">禁限农药</label>
                             <div class="am-u-sm-4 am-text-left">
                                 <label class="am-radio-inline">
-                                    <input type="radio"  value="1" name="f_nybz" checked> 否
+                                    <input type="radio"  value="0" name="f_nybz" checked> 否
                                 </label>
                                 <label class="am-radio-inline">
-                                    <input type="radio" value="0" name="f_nybz"> 是
+                                    <input type="radio" value="1" name="f_nybz"> 禁止
+                                </label>
+                                <label class="am-radio-inline">
+                                    <input type="radio" value="2" name="f_nybz"> 限用
                                 </label>
                             </div>
                             <div class="am-form-group ypdxs">
@@ -476,6 +479,13 @@
                                     </label>
                                 </div>
                                 <div class="am-u-sm-end"></div>
+                            </div>
+                            <div class="am-u-sm-end"></div>
+                        </div>
+                        <div class="am-form-group gdzwxs">
+                            <label for="f_fzdx" class="am-u-sm-2 am-form-label" style="padding: 0px;">防治对象</label>
+                            <div class="am-u-sm-9">
+                                <input type="text" class="am-form-field am-input-sm am-radius" id="f_fzdx" required placeholder="防治对象">
                             </div>
                             <div class="am-u-sm-end"></div>
                         </div>
@@ -782,14 +792,17 @@
                             </div>
                             <div class="am-u-sm-end"></div>
                         </div>
-                        <div class="am-form-group">
+                        <div class="am-form-group xggdzwxs">
                             <label class="am-u-sm-2 am-form-label" style="padding: 0px;">禁限农药</label>
                             <div class="am-u-sm-4 am-text-left">
                                 <label class="am-radio-inline">
-                                    <input type="radio"  value="1" name="xgf_nybz" checked> 否
+                                    <input type="radio"  value="0" name="xgf_nybz"> 否
                                 </label>
                                 <label class="am-radio-inline">
-                                    <input type="radio" value="0" name="xgf_nybz"> 是
+                                    <input type="radio" value="1" name="xgf_nybz"> 禁止
+                                </label>
+                                <label class="am-radio-inline">
+                                    <input type="radio" value="2" name="xgf_nybz"> 限用
                                 </label>
                             </div>
                             <div class="am-form-group ypdxs">
@@ -803,6 +816,13 @@
                                     </label>
                                 </div>
                                 <div class="am-u-sm-end"></div>
+                            </div>
+                            <div class="am-u-sm-end"></div>
+                        </div>
+                        <div class="am-form-group xggdzwxs">
+                            <label for="xgf_fzdx" class="am-u-sm-2 am-form-label" style="padding: 0px;">防治对象</label>
+                            <div class="am-u-sm-9">
+                                <input type="text" class="am-form-field am-input-sm am-radius" id="xgf_fzdx" required placeholder="防治对象">
                             </div>
                             <div class="am-u-sm-end"></div>
                         </div>
@@ -959,6 +979,7 @@
                 $("#f_scxkz").val("");
                 $("#f_ghs").val("");
                 $("#f_nycpzmwjbh").val("");
+                $("#f_fzdx").val("");
 
                 $('#f_scqy').trigger('changed.selected.amui');
                 $('#f_ghs').trigger('changed.selected.amui');
@@ -966,6 +987,7 @@
                 $(".shflzs").hide();
                 $(".spflzs").hide();
                 $(".qbflzs").hide();
+                $(".gdzwxs").hide();
 
                 //商户类型为农资店或农药厂商
                 if("<%=ypd%>" == '0' || "<%=ypd%>" == '1'){
@@ -989,6 +1011,11 @@
                         syfwHtml += "<option value='"+syfwda.F_FLBM+"'>"+syfwda.F_FLMC+"</option>";
                     }
                     $("#f_syfw").html(syfwHtml);
+                }
+
+                //农药厂商、农资店、常熟、江阴、太仓类型时，显示防治对象和禁限类型
+                if("<%=ypd%>" == '0' || "<%=ypd%>" == '1' || "<%=ypd%>" == '12' || "<%=ypd%>" == '13' || "<%=ypd%>" == '14' ){
+                    $(".gdzwxs").show();
                 }
 
                 $('#newSpdiv').modal({
@@ -1069,8 +1096,9 @@
                 var scxkz = $("#f_scxkz").val();
                 var ghs = $("#inputselect").val();
                 ghs = ghs.trim();
+                var sfcz = $("input[name='f_sfcz']:checked").val();
                 var splx = $("input[name='f_splx']:checked").val();
-                var nybz = $("input[name='f_nybz']:checked").val();
+                var nybz = "";
                 var nycpdjz = "";
                 var nycpbz = "";
                 var nycpbq = "";
@@ -1080,6 +1108,8 @@
                 var mbzzl = "";
                 var mbzzldw = "";
                 var nycpzmwjbh = $("#f_nycpzmwjbh").val();
+                var fzdx = "";
+                var jxlx = "";
 
                 if(splx != '1'){
                     if(ggxh == ''){
@@ -1174,6 +1204,14 @@
                 if(ghs == null){
                     ghs = "";
                 }
+
+
+                if ("<%=ypd%>" == '0' || "<%=ypd%>" == '1' || "<%=ypd%>" == '12' || "<%=ypd%>" == '13' || "<%=ypd%>" == '14'){
+                    fzdx = $("#f_fzdx").val();
+                    nybz = $("input[name='f_nybz']:checked").val();
+                }
+
+
                 $.ajax({
                     url: "/commodity/saveSpda",
                     type: "post",
@@ -1181,7 +1219,8 @@
                     data: { sptm: sptm, djh: djh,spmc:spmc, spfl: spfl, ggxh: ggxh,jldw:jldw,
                         xsj: xsj,jhj:jhj,jxsl:jxsl,xxsl:xxsl,scxkz:scxkz,ghs:ghs.toString(),scqy:scqy,splx:splx,nybz:nybz,
                         nycpdjz:nycpdjz,nycpbz:nycpbz,nycpbq:nycpbq,nycpsms:nycpsms,nycpzmwjbh:nycpzmwjbh,
-                        zhl:zhl,jx:jx,mbzzl:mbzzl,mbzzldw:mbzzldw,ppmc:ppmc,yxcf:yxcf,dx:dx,yxq:yxq,syfw:syfw.toString(),timeer: new Date() },
+                        zhl:zhl,jx:jx,mbzzl:mbzzl,mbzzldw:mbzzldw,ppmc:ppmc,yxcf:yxcf,dx:dx,yxq:yxq,syfw:syfw.toString(),
+                        fzdx:fzdx,sfcz:sfcz,timeer: new Date() },
                     success: function (data, textStatus) {
                         if(data == "ok"){
                             //saveBjkc(sptm,bjkc);
@@ -1241,8 +1280,10 @@
                 var syfw = "";
                 var scxkz = $("#xgf_scxkz").val();
                 var ghs = $("#xginputselect").val();
+                var sfcz = $("input[name='xgf_sfcz']:checked").val();
                 var splx = $("input[name='xgf_splx']:checked").val();
-                var nybz = $("input[name='xgf_nybz']:checked").val();
+                var nybz = "";
+                var fzdx = "";
                 var nycpdjz = "";
                 var nycpbz = "";
                 var nycpbq = "";
@@ -1344,6 +1385,14 @@
                     ppmc = $("#xgf_ppmc").val();
                 }
 
+                if ("<%=ypd%>" == '0' || "<%=ypd%>" == '1' || "<%=ypd%>" == '12' || "<%=ypd%>" == '13' || "<%=ypd%>" == '14'){
+                    $(".xggdzwxs").show();
+                    nybz = $("input[name='xgf_nybz']:checked").val();
+                    fzdx = $("#xgf_fzdx").val();
+                }else {
+                    $(".xggdzwxs").hide();
+                }
+
                 $.ajax({
                     url: "/commodity/updateSpda",
                     type: "post",
@@ -1351,7 +1400,8 @@
                     data: { sptm: sptm, djh: djh,spmc:spmc, spfl: spfl, ggxh: ggxh,jldw:jldw,
                         xsj: xsj,jhj:jhj,jxsl:jxsl,xxsl:xxsl,scxkz:scxkz,ghs:ghs.toString(),scqy:scqy,splx:splx,nybz:nybz,
                         nycpdjz:nycpdjz,nycpbz:nycpbz,nycpbq:nycpbq,nycpsms:nycpsms,nycpzmwjbh:nycpzmwjbh,
-                        zhl:zhl,jx:jx,mbzzl:mbzzl,mbzzldw:mbzzldw,ppmc:ppmc,yxcf:yxcf,dx:dx,yxq:yxq,syfw:syfw.toString(),timeer: new Date() },
+                        zhl:zhl,jx:jx,mbzzl:mbzzl,mbzzldw:mbzzldw,ppmc:ppmc,yxcf:yxcf,dx:dx,yxq:yxq,syfw:syfw.toString(),
+                        sfcz:sfcz,fzdx:fzdx,timeer: new Date() },
                     success: function (data, textStatus) {
                         if(data == "ok"){
                             //saveBjkc(sptm,bjkc);
@@ -1983,6 +2033,12 @@
             $("#xgf_ghs").val(ghs);
             $('#xgf_ghs').trigger('changed.selected.amui');
 
+            $("input[name='xgf_sfcz']").each(function() {
+                if ($(this).val() == parseInt(spda.F_SFCZ)) {
+                    $(this).prop("checked", true);
+                }
+            });
+
             var xgf_splbbm = $("#xgf_spfl").val().substring(0,2);
             loadDx();
             var dxHtml = "";
@@ -2034,14 +2090,22 @@
                 $(".xgqbflzs").hide();
             }
 
+            //农药厂商、农资店、常熟、江阴、太仓类型时，显示防治对象和禁限类型
+            if("<%=ypd%>" == '0' || "<%=ypd%>" == '1' || "<%=ypd%>" == '12' || "<%=ypd%>" == '13' || "<%=ypd%>" == '14' ){
+                $(".xggdzwxs").show();
+                $("input[name='xgf_nybz']").each(function() {
+                    if ($(this).val() == parseInt(spda.F_NYBZ)) {
+                        $(this).prop("checked", true);
+                    }
+                });
+                $("#xgf_fzdx").val(spda.F_FZDX);
+            }else {
+                $(".xggdzwxs").hide();
+            }
+
+
             $("input[name='xgf_splx']").each(function() {
                 if ($(this).val() == parseInt(spda.F_SPLX)) {
-                    $(this).prop("checked", true);
-                }
-            });
-
-            $("input[name='xgf_nybz']").each(function() {
-                if ($(this).val() == parseInt(spda.F_NYBZ)) {
                     $(this).prop("checked", true);
                 }
             });

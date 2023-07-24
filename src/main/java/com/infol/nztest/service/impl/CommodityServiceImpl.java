@@ -48,7 +48,7 @@ public class CommodityServiceImpl implements CommodityService {
         try {
             String clerk = loginService.GetZysxbm(f_zybm,f_shbm);
             JSONArray clerkJson = new JSONArray(clerk);
-            String sql = "select spda.f_sptm,spda.f_ypzjh,f_spmc,f_ggxh,f_Jldw,f_Xsdj,spda.f_Zhjj,spda.f_Sl,spda.f_Xxsl,lbda.f_Splbmc,cs.f_Csmc,cs.f_Csbm," +
+            String sql = "select spda.f_sptm,spda.f_ypzjh,f_spmc,f_ggxh,f_Jldw,f_Xsdj,spda.f_Zhjj,spda.f_Sl,spda.f_Xxsl,lbda.f_Splbmc,cs.f_Csmc,cs.f_Csbm,spda.f_fzdx,spda.f_sfcz," +
                     "isnull(lbda.f_Splbbm,'') f_Splbbm,isnull(lbda.f_Jb,'') f_Jb ,isnull(lbda.f_Mj,'') f_Mj,cs.f_Scxkzh,isnull(gysdz.f_Gysbm,'') f_Gysbm,cs2.f_Csmc as f_Gysmc,spda.f_f_colum1 f_splx,f_nybz," +
                     "f_nycpdjz,f_nycpbz,f_nycpbq,f_nycpsms,f_nycpzmwjbh,f_yxcf,f_dxbm,f_yxq,f_scqy,f_ppmc,f_syfw,f_zhl,f_jx,f_mbzzl,f_mbzzldw,f_Xjbz,case when f_sptp = '' then '/image/default.png' else f_sptp end as f_sptp ";
             /*if(clerkJson.length() == 1){
@@ -228,7 +228,7 @@ public class CommodityServiceImpl implements CommodityService {
                            String jhj,String jxsl,String xxsl,String scxkz,String ghs,String scqy,String splx,String nybz,
                            String nycpdjz,String nycpbz,String nycpbq,String nycpsms,String nycpzmwjbh,
                            String zhl,String jx,String mbzzl,String mbzzldw,String ppmc,String yxcf,String dx,
-                           String yxq,String syfw,HttpServletRequest request) {
+                           String yxq,String syfw,String fzdx,String sfcz,HttpServletRequest request) {
         //创建连接池
         openConnection();
         String f_shbm = (String) request.getSession().getAttribute("f_shbm");
@@ -272,9 +272,10 @@ public class CommodityServiceImpl implements CommodityService {
 
 
             sql = "insert into tb"+f_shbm+"_Spda(f_sptm,f_ypzjh,f_Spmc,f_Ggxh,f_Jldw,f_Xsdj,f_Zhjj,f_scqy,f_jb,f_c_colum3,f_Sl,f_Xxsl,f_f_colum1,f_nybz," +
-                    "f_nycpdjz,f_nycpbz,f_nycpbq,f_nycpsms,f_nycpzmwjbh,f_zhl,f_jx,f_mbzzl,f_mbzzldw,f_yxcf,f_dxbm,f_yxq,f_ppmc,f_syfw) " +
+                    "f_nycpdjz,f_nycpbz,f_nycpbq,f_nycpsms,f_nycpzmwjbh,f_zhl,f_jx,f_mbzzl,f_mbzzldw,f_yxcf,f_dxbm,f_yxq,f_ppmc,f_syfw,f_fzdx,f_sfcz) " +
                     "values('"+sptm+"','"+djh+"','"+spmc+"','"+ggxh+"','"+jldw+"','"+xsj+"','"+jhj+"','"+scqy+"','1','"+zjf+"','"+jxsl+"','"+xxsl+"','"+splx+"','"+nybz+"'," +
-                    "       '"+nycpdjz+"','"+nycpbz+"','"+nycpbq+"','"+nycpsms+"','"+nycpzmwjbh+"','"+zhl+"','"+jx+"','"+mbzzl+"','"+mbzzldw+"','"+yxcf+"','"+dx+"','"+yxq+"','"+ppmc+"','"+syfw+"')";
+                    "       '"+nycpdjz+"','"+nycpbz+"','"+nycpbq+"','"+nycpsms+"','"+nycpzmwjbh+"','"+zhl+"','"+jx+"','"+mbzzl+"','"+mbzzldw+"','"+yxcf+"','"+dx+"','"+yxq+"'," +
+                    "       '"+ppmc+"','"+syfw+"','"+fzdx+"','"+sfcz+"')";
             sqls.add(sql);
             sql = "insert into tb"+f_shbm+"_Splbdz(f_Splbbm,f_Sptm) " +
                     "values('"+spfl+"','"+sptm+"')";
@@ -377,7 +378,7 @@ public class CommodityServiceImpl implements CommodityService {
                              String jhj,String jxsl,String xxsl,String scxkz,String ghs,String scqy,String splx,String nybz,
                              String nycpdjz,String nycpbz,String nycpbq,String nycpsms,String nycpzmwjbh,
                              String zhl,String jx,String mbzzl,String mbzzldw,String ppmc,String yxcf,String dx,String yxq,
-                             String syfw,HttpServletRequest request) {
+                             String syfw,String sfcz,String fzdx,HttpServletRequest request) {
         //创建连接池
         openConnection();
 
@@ -488,6 +489,12 @@ public class CommodityServiceImpl implements CommodityService {
             }
             if(mbzzldw != null && !"".equals(mbzzldw)){
                 sql += "f_mbzzldw = '"+mbzzldw+"',";
+            }
+            if(fzdx != null && !"".equals(fzdx)){
+                sql += "f_fzdx = '"+fzdx+"',";
+            }
+            if(sfcz != null && !"".equals(sfcz)){
+                sql += "f_sfcz = '"+sfcz+"',";
             }
             sql = sql.substring(0,sql.length()-1);
             sql += " where f_sptm = '"+sptm+"'";

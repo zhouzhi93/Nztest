@@ -504,7 +504,7 @@
                             var flbms = "";
                             var sls = "";
                             for (var i = 0; i < mjxhJson.length; i++){
-                                var inputVal = $("#sltr").find('td:eq('+i+')').find('input:eq(0)').val();
+                                var inputVal = $("#xgtjmxTable").find("#sltr").find('td:eq('+i+')').find('input[name="slinput"]:eq(0)').val();
                                 if (inputVal != null && inputVal != "" && inputVal != undefined){
                                     if (i == mjxhJson.length - 1){
                                         flbms += mjxhJson[i].F_FLBM;
@@ -515,7 +515,6 @@
                                     }
                                 }
                             }
-
 
                             setTimeout(function () {
                                 $.ajax({
@@ -1061,7 +1060,7 @@
                     if (clickCsbm==null){
                         tableHtml += "<tr id='sltr'>";
                         for (var i = 0; i <cols; i++){
-                            tableHtml += "<td><input type='text''></td>";
+                            tableHtml += "<td><input type='text' name='slinput'></td>";
                         }
                         tableHtml += "</tr>";
                         tableHtml += "</tbody>";
@@ -1074,16 +1073,16 @@
                             for (var i = 0; i <cols; i++){
                                 var sl = slJson[i].F_SL;
                                 if (sl == 0){
-                                    tableHtml += "<td><input type='text' style='font-size: 6px'></td>";
+                                    tableHtml += "<td><input type='text' name='slinput' style='font-size: 6px'></td>";
                                     $("#sltr").find('td:eq('+i+')').find('input:eq(0)').val('');
                                 }else {
-                                    tableHtml += "<td><input type='text' value='"+sl+"' style='font-size: 6px'></td>";
+                                    tableHtml += "<td><input type='text' name='slinput' value='"+sl+"' style='font-size: 6px'></td>";
                                     $("#sltr").find('td:eq('+i+')').find('input:eq(0)').val();
                                 }
                             }
                         }else {
                             for (var i = 0; i <cols; i++){
-                                tableHtml += "<td><input type='text' style='font-size: 6px'></td>";
+                                tableHtml += "<td><input type='text' name='slinput' style='font-size: 6px'></td>";
                                 $("#sltr").find('td:eq('+i+')').find('input:eq(0)').val('');
                             }
                         }

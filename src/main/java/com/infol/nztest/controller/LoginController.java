@@ -140,18 +140,27 @@ public class LoginController {
                 //添加参数设置到session
                 String csszList = loginService.getCssz(f_shbm);
                 JSONArray csszJarr = new JSONArray(csszList);
-                String f_qyck = csszJarr.getJSONObject(20).getString("F_CSZ");
-                String f_qygmxe = csszJarr.getJSONObject(27).getString("F_CSZ");
-                String f_brcdmrck = csszJarr.getJSONObject(13).getString("F_CSZ");
-                String f_bcdmrbrdw = csszJarr.getJSONObject(15).getString("F_CSZ");
-                String f_dlxsxsd = csszJarr.getJSONObject(21).getString("F_CSZ");
+                String f_title = csszJarr.getJSONObject(0).getString("F_CSZ");//主标题
+                String f_xTitle = csszJarr.getJSONObject(1).getString("F_CSZ");//小标题
+                String f_cTitle = csszJarr.getJSONObject(2).getString("F_CSZ");//次标题
+                String f_brcdmrck = csszJarr.getJSONObject(13).getString("F_CSZ");//拨入(出)单默认仓库
+                String f_bcdmrbrdw = csszJarr.getJSONObject(15).getString("F_CSZ");//拨出单默认拨入单位
+                String f_qyck = csszJarr.getJSONObject(20).getString("F_CSZ");//启用仓库
+                String f_dlxsxsd = csszJarr.getJSONObject(21).getString("F_CSZ");//登录显示销售单
+                String f_jdxsdts = csszJarr.getJSONObject(22).getString("F_CSZ");//豇豆销售单提示
+                String f_qygmxe = csszJarr.getJSONObject(29).getString("F_CSZ");//启用购买限额
+
 
                 request.getSession().setAttribute("csszList",csszList);
-                request.getSession().setAttribute("f_qyck",f_qyck);
-                request.getSession().setAttribute("f_qygmxe",f_qygmxe);
+                request.getSession().setAttribute("f_title",f_title);
+                request.getSession().setAttribute("f_xTitle",f_xTitle);
+                request.getSession().setAttribute("f_cTitle",f_cTitle);
                 request.getSession().setAttribute("f_brcdmrck",f_brcdmrck);
                 request.getSession().setAttribute("f_bcdmrbrdw",f_bcdmrbrdw);
+                request.getSession().setAttribute("f_qyck",f_qyck);
                 request.getSession().setAttribute("f_dlxsxsd",f_dlxsxsd);
+                request.getSession().setAttribute("f_jdxsdts",f_jdxsdts);
+                request.getSession().setAttribute("f_qygmxe",f_qygmxe);
 
                 int qxCount = Integer.parseInt(loginService.GetSaleBillQX(f_zybm,f_shbm));
                 if (qxCount > 0 && f_dlxsxsd.equals("1")){

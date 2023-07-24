@@ -38,4 +38,9 @@ public interface SalesService {
 
     String getXsdXq(String f_djh, String f_shbm);
 
+    String sfsyjd(String sptms, String f_shbm);
+
+    String queryByJxny(String f_jxxz, String f_ksrq, String f_jsrq, String f_bmbm, String f_shbm, String f_zybm);
+
+    String queryBySyzw(String f_syzw, String f_ksrq, String f_jsrq, String f_bmbm, String f_shbm, String f_zybm);
 }
